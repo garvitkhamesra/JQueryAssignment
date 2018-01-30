@@ -1,5 +1,6 @@
 var headingText = '';
 var bodyText = '';
+var cell = "";
 
 $.getJSON("data.json", function(json) {
     $('<div class="Table"></div>').appendTo('body');
@@ -7,10 +8,21 @@ $.getJSON("data.json", function(json) {
     headingText += '<div class="Heading">';
     $.each( heading, function( key, value ) {
         headingText += '<div class=' + value + '>';
+        headingText += '<input id= "search'+ value +'">';
         headingText += '<p>' + value + '</p>';
         headingText += '</div>';
     });
+
+    headingText += '<div class="filter">' +
+                   '<i class="fa fa-sort-desc" aria-hidden="true"></i>' +
+                   '</div>';
+
+    headingText += '<div class="sort"' +
+                   '<i class="fa fa-filter" aria-hidden="true"></i>' +
+                   '</div>';
+                   
     headingText += '</div>';
+
     $('.Table').append(headingText);
 
     var body = json.result[1].body;
@@ -33,9 +45,9 @@ function callAfterLoad() {
     var sorting=1;
     $(".Heading").children().each(function(){
         $(this).click(function(){
-            var cell = $(this).attr("class");
+            cell = $(this).attr("class");
             sorting = sorting == 1 ? -1 : 1 ;
-            $(".Row").sort(function(a,b){
+            $(".Row").detach().sort(function(a,b){
                 var StringCompare1=$(a).find('.'+cell).text();
                 var StringCompare2=$(b).find('.'+cell).text();
                 var Comparator1 = StringCompare1.match(/\w+/);
@@ -48,3 +60,26 @@ function callAfterLoad() {
         })
     });
 }
+
+$( document ).ready(function() {
+
+    $(".Heading").children().each(function(){
+        $(this).dblclick(function(){
+          var cell = $(this).attr("class");
+          $("#search"+cell+"").on("keyup", function() {
+              var value = $(this).val().toLowerCase();
+              $(".Row").each(function(index) {
+                  $row = $(this);
+                  var id = $row.find("."+cell).text().toLowerCase();
+                  if (id.indexOf(value) < 0) {
+                      $(this).hide();
+                  }
+                  else {
+                      $(this).show();
+                  }
+              });
+          })
+
+        });
+    });
+});
