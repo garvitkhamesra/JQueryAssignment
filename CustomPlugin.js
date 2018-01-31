@@ -51,6 +51,7 @@ function callAfterLoad() {
         $(this).click(function(){
             cell = $(this).attr("class");
             var filterCell = cell;
+            var searchCell = filterCell.substr(6);
             if (cell !== undefined) {
                 cell = cell.substr(4);
 
@@ -68,9 +69,47 @@ function callAfterLoad() {
 
               if (filterCell.substring(0,6) === "filter") {
                   var tag = tagGenerate(filterCell.substr(6));
-                  $.confirm({
+                  var confirm = $.confirm({
                     title: "Filter",
-                    content: tag
+                    content: tag,
+                    onContentReady: function () {
+                      var jc = this;
+                      jc = this.$content[0];
+
+                      $(jc.children[0].children[0].children[0]).on('keyup', function() {
+                          var value = $(this).val().toLowerCase();
+                          $(".Row").each(function(index) {
+                              $row = $(this);
+                              var id = $row.find("."+searchCell).text().toLowerCase();
+                              if (id.indexOf(value) < 0) {
+                                  $(this).hide();
+                              }
+                              else {
+                                  $(this).show();
+                              }
+                          });
+                      });
+
+                      $(jc.children[0].children[0].children[0]).focusout( function() {
+                          $(".Row").show();
+                      });
+
+                      $(jc.children[0].children[0].children[3].children).change(function () {
+                          var value = $(this).val().toLowerCase();
+                          $(".Row").each(function(index) {
+                              $row = $(this);
+                              var id = $row.find("."+searchCell).text().toLowerCase();
+                              console.log((id.match(value)[0]));
+                              if (id.indexOf(value) < 0) {
+                                  $(this).hide();
+                              }
+                              else {
+                                  $(this).show();
+                              }
+                          });
+                      });
+
+                    }
                   });
               }
 
@@ -89,7 +128,7 @@ function tagGenerate(dataValue) {
     tag += '<input type="text" class="search" id="search' + dataValue + '" placeholder="Search"">';
     tag += '<br>';
     tag += '<br>';
-
+    tag += '<div class="checkList">';
     items.forEach(function(item) {
         var name = item[dataValue];
         if (!(name in lookup)) {
@@ -101,47 +140,6 @@ function tagGenerate(dataValue) {
         }
     });
     tag += '</div>';
+    tag += '</div>';
     return tag;
 }
-
-$( document ).ready(function() {
-
-    $(".Heading").children().each(function(){
-        $(this).dblclick(function(){
-          var cell = $(this).attr("class");
-          $("#search"+cell+"").on("keyup", function() {
-              var value = $(this).val().toLowerCase();
-              $(".Row").each(function(index) {
-                  $row = $(this);
-                  var id = $row.find("."+cell).text().toLowerCase();
-                  if (id.indexOf(value) < 0) {
-                      $(this).hide();
-                  }
-                  else {
-                      $(this).show();
-                  }
-              });
-          })
-
-        });
-    });
-
-    // $(".Heading").children().children().children().each(function(){
-    //     $(this).click(function(){
-    //         cell = $(this).attr("class");
-    //         console.log(cell.substring(0,6));
-    //         if (cell !== undefined) {
-    //             cell = cell.substr(6);
-    //         }
-    //
-    //
-    //     })
-    //
-    // });
-
-    //
-    // function checkList() {
-    //
-    // }
-
-});
