@@ -93,19 +93,23 @@ function callAfterLoad() {
                       $(jc.children[0].children[0].children[0]).focusout( function() {
                           $(".Row").show();
                       });
-
                       $(jc.children[0].children[0].children[3].children).change(function () {
-                          var value = $(this).val().toLowerCase();
+                          console.log($(this).children().is(':checked'));
+                          var value = $(this).children().val().toLowerCase();
                           $(".Row").each(function(index) {
                               $row = $(this);
                               var id = $row.find("."+searchCell).text().toLowerCase();
-                              console.log((id.match(value)[0]));
-                              if (id.indexOf(value) < 0) {
+                              console.log(id.match(value));
+                              if (id.match(value)) {
                                   $(this).hide();
                               }
-                              else {
-                                  $(this).show();
-                              }
+                              console.log("2");
+                              // if (id.indexOf(value) < 0) {
+                              //     $(this).hide();
+                              // }
+                              // else {
+                              //     $(this).show();
+                              // }
                           });
                       });
 
@@ -134,9 +138,10 @@ function tagGenerate(dataValue) {
         if (!(name in lookup)) {
           lookup[name] = 1;
           result.push(name);
+          tag += '<div>';
           tag += '<input type="checkbox" value="'+ name +'">';
           tag += '&nbsp&nbsp&nbsp&nbsp' + name;
-          tag += '<br>';
+          tag += '</div>';
         }
     });
     tag += '</div>';
