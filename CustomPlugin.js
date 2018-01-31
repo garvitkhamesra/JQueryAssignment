@@ -1,26 +1,30 @@
 var headingText = '';
 var bodyText = '';
 var cell = "";
-
+var filterData;
 $.getJSON("data.json", function(json) {
+    filterData = json;
     $('<div class="Table"></div>').appendTo('body');
     var heading = json.result[0].heading;
     headingText += '<div class="Heading">';
     $.each( heading, function( key, value ) {
-        headingText += '<div class=' + value + '>';
-        headingText += '<input id= "search'+ value +'">';
+        headingText += '<div class="Container">';
+        headingText += '<div class="flexContainer">';
+        headingText += '<div >';
+        // headingText += '<input id= "search'+ value +'">';
         headingText += '<p>' + value + '</p>';
+        headingText += '</div>';
+        headingText += '<div class="sort'+ value +'">' +
+                       '<i class="fa fa-sort-desc" aria-hidden="true"></i>' +
+                       '</div>';
+
+        headingText += '<div class="filter'+ value +'">' +
+                       '<i class="fa fa-filter" aria-hidden="true"></i>' +
+                       '</div>';
+        headingText += '</div>';
         headingText += '</div>';
     });
 
-    headingText += '<div class="filter">' +
-                   '<i class="fa fa-sort-desc" aria-hidden="true"></i>' +
-                   '</div>';
-
-    headingText += '<div class="sort"' +
-                   '<i class="fa fa-filter" aria-hidden="true"></i>' +
-                   '</div>';
-                   
     headingText += '</div>';
 
     $('.Table').append(headingText);
@@ -43,22 +47,61 @@ $.getJSON("data.json", function(json) {
 
 function callAfterLoad() {
     var sorting=1;
-    $(".Heading").children().each(function(){
+    $(".Heading").children().children().children().each(function(){
         $(this).click(function(){
             cell = $(this).attr("class");
-            sorting = sorting == 1 ? -1 : 1 ;
-            $(".Row").detach().sort(function(a,b){
-                var StringCompare1=$(a).find('.'+cell).text();
-                var StringCompare2=$(b).find('.'+cell).text();
-                var Comparator1 = StringCompare1.match(/\w+/);
-                var Comparator2 = StringCompare2.match(/\w+/);
+            var filterCell = cell;
+            if (cell !== undefined) {
+                cell = cell.substr(4);
 
-                if(Comparator1 != '' ){
-                    return sorting == 1 ? StringCompare1 > StringCompare2 : StringCompare1 < StringCompare2;
-                }
-            }).appendTo($(".TableBody"));
+              sorting = sorting == 1 ? -1 : 1 ;
+              $(".Row").detach().sort(function(a,b){
+                  var StringCompare1=$(a).find('.'+cell).text();
+                  var StringCompare2=$(b).find('.'+cell).text();
+                  var Comparator1 = StringCompare1.match(/\w+/);
+                  var Comparator2 = StringCompare2.match(/\w+/);
+
+                  if(Comparator1 != '' ){
+                      return sorting == 1 ? StringCompare1 > StringCompare2 : StringCompare1 < StringCompare2;
+                  }
+              }).appendTo($(".TableBody"));
+
+              if (filterCell.substring(0,6) === "filter") {
+                  var tag = tagGenerate(filterCell.substr(6));
+                  $.confirm({
+                    title: "Filter",
+                    content: tag
+                  });
+              }
+
+            }
         })
+
     });
+}
+
+function tagGenerate(dataValue) {
+    var lookup = {};
+    var result = [];
+    var tag = '';
+    tag += '<div class="list">';
+    var items = filterData.result[1].body;
+    tag += '<input type="text" class="search" id="search' + dataValue + '" placeholder="Search"">';
+    tag += '<br>';
+    tag += '<br>';
+
+    items.forEach(function(item) {
+        var name = item[dataValue];
+        if (!(name in lookup)) {
+          lookup[name] = 1;
+          result.push(name);
+          tag += '<input type="checkbox" value="'+ name +'">';
+          tag += '&nbsp&nbsp&nbsp&nbsp' + name;
+          tag += '<br>';
+        }
+    });
+    tag += '</div>';
+    return tag;
 }
 
 $( document ).ready(function() {
@@ -82,4 +125,23 @@ $( document ).ready(function() {
 
         });
     });
+
+    // $(".Heading").children().children().children().each(function(){
+    //     $(this).click(function(){
+    //         cell = $(this).attr("class");
+    //         console.log(cell.substring(0,6));
+    //         if (cell !== undefined) {
+    //             cell = cell.substr(6);
+    //         }
+    //
+    //
+    //     })
+    //
+    // });
+
+    //
+    // function checkList() {
+    //
+    // }
+
 });

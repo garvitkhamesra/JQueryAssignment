@@ -2,6 +2,13 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="././font-awesome/css/font-awesome.css">
     <title>asd</title>
     <style media="all">
@@ -19,17 +26,69 @@
           flex: 1;
         }
     </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
   </head>
   <body>
+    <div class="row">
+  <div class="col-xs-6">
+        <div class="row">
+            <div class="col-xs-6">&nbsp;</div>
+            <div class="col-xs-6">
+                <img border="0" src="#" width="100" height="300">
+            </div>
+            <div class="col-xs-10">&nbsp;</div>
+            <div class="col-xs-2">
+                <span style='font-size:10px;color:#cccccc;'>Alpha testing</span>
+            </div>
+        </div>
+  </div>
+</div>
     <div class="Heading">
       <div class="name">
         <p>w</p>
       </div>
       <div class="fil">
-        <i class="fa fa-sort-desc" aria-hidden="true"></i>
+        <i class="fa fa-sort-desc fa-lg" aria-hidden="true"></i>
       </div>
-        <i class="fa fa-filter sor" aria-hidden="true"></i>
-
+        <div class="sor">
+          <i class="fa fa-filter fa-lg" aria-hidden="true"></i>
+        </div>
     </div>
+    <script type="text/javascript">
+          var a = [ 1, 5, 1, 6, 4, 5, 2, 5, 4, 3, 1, 2, 6, 6, 3, 3, 2, 4 ];
+          var unique = a.filter(function(itm, i, a) {
+            return i == a.indexOf(itm);
+          });
+
+
+      console.log(unique);
+      $.getJSON("data.json", function(json) {
+
+          var lookup = {};
+          var result = [];
+          var items = json.result[1].body;
+          console.log(items);
+          items.forEach(function(item) {
+              var name = item.name;
+              if (!(name in lookup)) {
+                lookup[name] = 1;
+                result.push(name);
+              }
+          });
+          // for (var item, i = 0; item = items[i++];) {
+          //     var name = item.name;
+          //     if (!(name in lookup)) {
+          //       lookup[name] = 1;
+          //       result.push(name);
+          //     }
+          // }
+
+
+          console.log(result);
+      });
+    </script>
   </body>
 </html>
