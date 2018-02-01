@@ -1,3 +1,7 @@
+body
+{
+    margin: 10px;
+}
 .Table
 {
     display: table;
@@ -102,23 +106,43 @@ p
 }
 .sortname
 {
-    flex: 3;
+    flex: 1;
 }
 .sortlocation
 {
-    flex: 3;
+    flex: 1;
 }
 .sortdescription
 {
-    flex: 3;
+    flex: 1;
 }
 .sortcreated_by
 {
-    flex: 3;
+    flex: 1;
 }
 .sortusers_name
 {
-    flex: 3;
+    flex: 1;
+}
+.filtername
+{
+    flex: 1;
+}
+.filterlocation
+{
+    flex: 1;
+}
+.filterdescription
+{
+    flex: 1;
+}
+.filtercreated_by
+{
+    flex: 1;
+}
+.filterusers_name
+{
+    flex: 1;
 }
 .search
 {
@@ -126,4 +150,8 @@ p
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
+}
+.flexible
+{
+    flex: 3;
 }
