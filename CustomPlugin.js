@@ -91,15 +91,14 @@ function callAfterLoad() {
               // Search Operation
               $(jc.children[0].children[0].children[0]).on('keyup', function() {
                   var value = $(this).val().toLowerCase();
-
                   $(".Row").each(function(index) {
-                          $row = $(this);
-                          var id = $row.find("." + searchCell).text().toLowerCase();
-                          if (id.indexOf(value) < 0) {
-                            $(this).hide();
-                          } else {
-                            $(this).show();
-                          }
+                      $row = $(this);
+                      var id = $row.find("." + searchCell).text().toLowerCase();
+                      if (id.indexOf(value) < 0) {
+                        $(this).hide();
+                      } else {
+                        $(this).show();
+                      }
                   });
                 });
 
