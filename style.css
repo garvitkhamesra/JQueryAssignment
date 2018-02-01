@@ -6,6 +6,10 @@ body
 {
     display: table;
     width: 100%;
+    border: solid grey;
+    border-width: thin;
+    border-radius: 10px;
+    overflow: hidden;
 }
 .Title
 {

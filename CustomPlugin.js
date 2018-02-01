@@ -16,7 +16,7 @@ function createTable(inputFile) {
       headingText += '<div class="Container">';
       headingText += '<div class="flexContainer">';
       headingText += '<div class="flexible">';
-      headingText += '<p>' + value + '</p>';
+      headingText += '<p>' + value.toUpperCase() + '</p>';
       headingText += '</div>';
       headingText += '<div class="sort' + value + '">' +
         '<i class="fa fa-sort-desc" aria-hidden="true"></i>' +
